@@ -6,12 +6,13 @@ import { GOOGLE_MAPS_API_KEY } from '../config';
 export class MapContainer extends Component {
 
   renderMarkers = () => {
-    return markers.map(marker => 
-      <Marker 
+    return markers.map(marker =>
+      <Marker
         key={marker.title}
-        title={marker.title} 
-        position={{lat: marker.lat, lng: marker.lng}} 
-        name={marker.name} 
+        title={marker.title}
+        position={{lat: marker.lat, lng: marker.lng}}
+        name={marker.name}
+        
       />
     );
   };
@@ -20,9 +21,9 @@ export class MapContainer extends Component {
     if (!this.props.loaded) {
       return <div>Loading...</div>
     }
-    
+
     return (
-      <div>      
+      <div>
         <Map google={this.props.google}
             style={{width: '100%', height: '100%'}}
             className={'map'}

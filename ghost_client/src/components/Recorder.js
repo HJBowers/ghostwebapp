@@ -1,5 +1,21 @@
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import {ReactMic} from 'react-mic';
+import FileSaver from 'file-saver'
+var file = {};
+var xhr = new XMLHttpRequest();
+xhr.open('GET', blobURL, true);
+xhr.responseType = 'blob';
+xhr.onload = function(e) {
+    if (this.status == 200) {
+        file.file = this.response;
+        file.name = "whatever_filename.mp3";
+        file.size = getYourBlobSize();
+        file.type = "audio/mpeg";
+        uploadAudioBlobs(file);
+    }
+};
+xhr.send();
+
 
 export default class Recorder extends Component {
   constructor(props) {
@@ -22,6 +38,8 @@ export default class Recorder extends Component {
 
   onStop(recordedBlob) {
     console.log('recordedBlob is: ', recordedBlob);
+    var blob = new Blob([recordedBlob], {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(blob, "hello world.txt");
   }
 
   render() {
@@ -39,4 +57,3 @@ export default class Recorder extends Component {
     );
   }
 }
-
