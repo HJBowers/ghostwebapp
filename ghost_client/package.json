@@ -5,6 +5,9 @@
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "google-maps-react": "^1.1.2",
+    "material-design-icons": "^3.0.1",
+    "material-ui": "^0.20.2",
+    "node-audiorecorder": "^1.1.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
