@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Component } from 'react';
 import {ReactMic} from 'react-mic';
 import FileSaver from 'file-saver'
@@ -16,44 +17,89 @@ xhr.onload = function(e) {
 };
 xhr.send();
 
+=======
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import {FloatingActionButton, MuiThemeProvider} from 'material-ui';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MicrophoneOn from 'material-ui/svg-icons/av/mic';
+import MicrophoneOff from 'material-ui/svg-icons/av/stop';
+>>>>>>> 38a8c96c5cd1f1ceff9b92c4286d0f1ac123c649
 
-export default class Recorder extends Component {
+import { ReactMic } from 'react-mic';
+
+injectTapEventPlugin();
+
+export default class Demo extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      record: false
+      record: false,
+      blobObject: null,
+      isRecording: false
     }
-
   }
 
   startRecording = () => {
-    this.setState({record: true});
+    this.setState({record: true, isRecording: true});
   }
 
   stopRecording = () => {
-    this.setState({record: false});
-    this.onStop
+    this.setState({record: false, isRecording: false});
   }
 
+<<<<<<< HEAD
   onStop(recordedBlob) {
     console.log('recordedBlob is: ', recordedBlob);
     var blob = new Blob([recordedBlob], {type: "text/plain;charset=utf-8"});
     FileSaver.saveAs(blob, "hello world.txt");
+=======
+  onStart = () => {
+    console.log('You can tap into the onStart callback');
+  }
+
+  onStop = (blobObject) => {
+    this.setState({blobURL: blobObject.blobURL});
+>>>>>>> 38a8c96c5cd1f1ceff9b92c4286d0f1ac123c649
   }
 
   render() {
+    console.log('BLOB URL',this.state.blobURL)
+    const {isRecording} = this.state;
+
     return (
-      <div>
-        <ReactMic
-          record={this.state.record}
-          className="sound-wave"
-          onStop={this.onStop}
-          strokeColor="#000000"
-          backgroundColor="#FF4081"/>
-        <button onClick={this.startRecording} type="button">Start</button>
-        <button onClick={this.stopRecording} type="button">Stop</button>
-      </div>
+      <MuiThemeProvider>
+        <div>
+          <ReactMic
+            className="oscilloscope"
+            record={this.state.record}
+            backgroundColor="#FF4081"
+            visualSetting="sinewave"
+            audioBitsPerSecond={128000}
+            onStop={this.onStop}
+            onStart={this.onStart}
+            strokeColor="#000000"/>
+          <div>
+            <audio ref="audioSource" controls="controls" src={this.state.blobURL}></audio>
+          </div>
+          <br/>
+          <br/>
+          <FloatingActionButton
+            className="btn"
+            secondary={true}
+            disabled={isRecording}
+            onClick={this.startRecording}>
+            <MicrophoneOn/>
+          </FloatingActionButton>
+          <FloatingActionButton
+            className="btn"
+            secondary={true}
+            disabled={!isRecording}
+            onClick={this.stopRecording}>
+            <MicrophoneOff/>
+          </FloatingActionButton>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
